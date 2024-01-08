@@ -120,76 +120,74 @@ class _LoginScreenWidgetState extends State<LoginScreenWidget> {
 
   Widget _buildGetOtpButton() {
     return Consumer<LoginProvider>(
-      builder: (BuildContext context, LoginProvider value, Widget? child) {
-        return InkWell(
-          onTap: () {
-            value.isGetOtpVuttonDisabled || !value.isRadioButtonEnabled ? null : onGetOtpTap;
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  color: value.isGetOtpVuttonDisabled  || !value.isRadioButtonEnabled ? Colors.grey[600] : titleTextColor, borderRadius: BorderRadius.circular(8.0)),
-              child: const Center(
-                child: Text(
-                  "Get OTP",
-                  style: TextStyle(
-                      color: primaryBackgroundColor,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16),
-                ),
+        builder: (BuildContext context, LoginProvider value, Widget? child) {
+      return InkWell(
+        onTap: () {
+          value.isGetOtpVuttonDisabled || !value.isRadioButtonEnabled
+              ? null
+              : onGetOtpTap;
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            width: double.infinity,
+            decoration: BoxDecoration(
+                color:
+                    value.isGetOtpVuttonDisabled || !value.isRadioButtonEnabled
+                        ? Colors.grey[600]
+                        : titleTextColor,
+                borderRadius: BorderRadius.circular(8.0)),
+            child: const Center(
+              child: Text(
+                "Get OTP",
+                style: TextStyle(
+                    color: primaryBackgroundColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16),
               ),
             ),
           ),
-        );
-      }
-    );
+        ),
+      );
+    });
   }
 
   Widget _buildBottomText() {
     return Consumer<LoginProvider>(
-      builder: (BuildContext context, LoginProvider values, Widget? child) {
-        return Align(
-          alignment: Alignment.centerRight,
-          child: Row(
-            children: [
-              Radio(
-                value: values.isRadioButtonEnabled,
-                groupValue: groupValue,
-                onChanged: (bool? value) {
-                  context
-                      .read<LoginProvider>().updateRadioButton(values.isRadioButtonEnabled);
-                  _onTextChangeListener();
-                },
-                toggleable: true,
-              ),
-              const Expanded(
-                child: Text(
-                    'Allow fydaa to send financial knowledge and critical alerts on your WhatsApp.'),
-              ),
-            ],
-          ),
-        );
-      }
-    );
+        builder: (BuildContext context, LoginProvider values, Widget? child) {
+      return Align(
+        alignment: Alignment.centerRight,
+        child: Row(
+          children: [
+            Radio(
+              value: values.isRadioButtonEnabled,
+              groupValue: groupValue,
+              onChanged: (bool? value) {
+                context
+                    .read<LoginProvider>()
+                    .updateRadioButton(values.isRadioButtonEnabled);
+                _onTextChangeListener();
+              },
+              toggleable: true,
+            ),
+            const Expanded(
+              child: Text(
+                  'Allow fydaa to send financial knowledge and critical alerts on your WhatsApp.'),
+            ),
+          ],
+        ),
+      );
+    });
   }
 
-  void _onTextChangeListener()
-  {
-    if(_phoneTEC.text.length == 10)
-    {
-      context
-          .read<LoginProvider>().updateGetOtpButton(false);
-    }else{
-      context
-          .read<LoginProvider>().updateGetOtpButton(true);
+  void _onTextChangeListener() {
+    if (_phoneTEC.text.length == 10) {
+      context.read<LoginProvider>().updateGetOtpButton(false);
+    } else {
+      context.read<LoginProvider>().updateGetOtpButton(true);
     }
   }
 
-  void onGetOtpTap() async
-  {
-    
-  }
+  void onGetOtpTap() async {}
 }
