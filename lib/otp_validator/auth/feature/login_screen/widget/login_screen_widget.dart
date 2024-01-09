@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../../../../core/utils/custom_colors.dart';
 import '../../../../core/widget/global_widget/textfield.dart';
+import '../../otp_verification/widget/otp_verification_widget.dart';
 import '../providers/login_provider.dart';
 
 class LoginScreenWidget extends StatefulWidget {
@@ -33,11 +34,11 @@ class _LoginScreenWidgetState extends State<LoginScreenWidget> {
 
   Widget _buildBody() {
     return SafeArea(
-      child: _buildLoginCard(),
+      child: _buildLogin(),
     );
   }
 
-  Widget _buildLoginCard() {
+  Widget _buildLogin() {
     return Padding(
       padding:
           const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0, top: 32),
@@ -125,7 +126,7 @@ class _LoginScreenWidgetState extends State<LoginScreenWidget> {
         onTap: () {
           value.isGetOtpVuttonDisabled || !value.isRadioButtonEnabled
               ? null
-              : onGetOtpTap;
+              : onGetOtpTap();
         },
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -173,7 +174,7 @@ class _LoginScreenWidgetState extends State<LoginScreenWidget> {
             ),
             const Expanded(
               child: Text(
-                  'Allow fydaa to send financial knowledge and critical alerts on your WhatsApp.'),
+                  'Allow fydaa to send financial knowledge and critical alerts on your WhatsApp.',style: TextStyle(color: subTitleTextColor,fontSize: 12),),
             ),
           ],
         ),
@@ -189,5 +190,13 @@ class _LoginScreenWidgetState extends State<LoginScreenWidget> {
     }
   }
 
-  void onGetOtpTap() async {}
+  void onGetOtpTap() {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) =>   OtpVerificationWidget(mobileNumber: _phoneTEC.text, )));
+  }
+
+  @override
+  void dispose() {
+    _phoneTEC.dispose();
+    super.dispose();
+  }
 }

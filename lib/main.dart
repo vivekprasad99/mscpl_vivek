@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import 'otp_validator/auth/feature/login_screen/providers/login_provider.dart';
 import 'otp_validator/auth/feature/login_screen/widget/login_screen_widget.dart';
+import 'otp_validator/auth/feature/otp_verification/providers/otp_verification_provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +16,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => LoginProvider())
+        ChangeNotifierProvider(create: (context) => LoginProvider()),
+        ChangeNotifierProvider(create: (context) => OtpVerificationProvider())
       ],
       child: MaterialApp(
         title: 'Otp Validator',
