@@ -10,14 +10,14 @@ import '../providers/otp_verification_provider.dart';
 
 class OtpVerificationWidget extends StatefulWidget {
   final String mobileNumber;
-  const OtpVerificationWidget({Key? key, required this.mobileNumber}) : super(key: key);
+  const OtpVerificationWidget({Key? key, required this.mobileNumber})
+      : super(key: key);
 
   @override
   State<OtpVerificationWidget> createState() => _OtpVerificationWidgetState();
 }
 
 class _OtpVerificationWidgetState extends State<OtpVerificationWidget> {
-
   final _otpPasswordTEC = TextEditingController();
 
   @override
@@ -37,9 +37,13 @@ class _OtpVerificationWidgetState extends State<OtpVerificationWidget> {
   Widget _buildBody(BuildContext context) {
     return Column(
       children: [
-        Expanded(child: SingleChildScrollView(child: _buildOtpVerification(context))),
+        Expanded(
+            child:
+                SingleChildScrollView(child: _buildOtpVerification(context))),
         _buildResendButton("Resend Code"),
-        const SizedBox(height: 16,),
+        const SizedBox(
+          height: 16,
+        ),
         _buildResendButton("change Number"),
       ],
     );
@@ -94,7 +98,7 @@ class _OtpVerificationWidgetState extends State<OtpVerificationWidget> {
   Widget _buildVerificationCode() {
     return RichText(
       textAlign: TextAlign.start,
-      text:  TextSpan(
+      text: TextSpan(
         style: const TextStyle(color: textColor, fontWeight: FontWeight.w500),
         children: <TextSpan>[
           const TextSpan(
@@ -105,7 +109,10 @@ class _OtpVerificationWidgetState extends State<OtpVerificationWidget> {
                   fontSize: 20)),
           TextSpan(
             text: ' ${getPhoneNumber()}.',
-            style: const TextStyle(color: titleTextColor, fontWeight: FontWeight.bold,fontSize: 20),
+            style: const TextStyle(
+                color: titleTextColor,
+                fontWeight: FontWeight.bold,
+                fontSize: 20),
           ),
         ],
       ),
@@ -142,7 +149,7 @@ class _OtpVerificationWidgetState extends State<OtpVerificationWidget> {
       animationDuration: const Duration(milliseconds: 200),
       backgroundColor: Colors.transparent,
       enableActiveFill: true,
-      onValidate: (String value){},
+      onValidate: (String value) {},
     );
   }
 
@@ -152,14 +159,17 @@ class _OtpVerificationWidgetState extends State<OtpVerificationWidget> {
   }
 
   Widget _buildTimerText() {
-    return Consumer<OtpVerificationProvider>(
-      builder: (BuildContext context, OtpVerificationProvider values, Widget? child) {
-        return Center(child: Text("Verification code expires in ${values.getRemainingTime()}",style: const TextStyle(
+    return Consumer<OtpVerificationProvider>(builder:
+        (BuildContext context, OtpVerificationProvider values, Widget? child) {
+      return Center(
+          child: Text(
+        "Verification code expires in ${values.getRemainingTime()}",
+        style: const TextStyle(
             color: subTitleTextColor,
             fontWeight: FontWeight.w400,
-            fontSize: 14),));
-      }
-    );
+            fontSize: 14),
+      ));
+    });
   }
 
   Widget _buildResendButton(String value) {
@@ -174,8 +184,8 @@ class _OtpVerificationWidgetState extends State<OtpVerificationWidget> {
               color: primaryBackgroundColor,
               border: Border.all(color: buttonBorderColor),
               borderRadius: BorderRadius.circular(8.0)),
-          child:  Center(
-            child:  Text(
+          child: Center(
+            child: Text(
               value,
               style: const TextStyle(
                   color: titleTextColor,
@@ -188,14 +198,14 @@ class _OtpVerificationWidgetState extends State<OtpVerificationWidget> {
     );
   }
 
-  void startTimeout()
-  {
+  void startTimeout() {
     int timerMaxSeconds = 170;
     int currentSeconds = 0;
     Timer.periodic(const Duration(seconds: 1), (timer) {
       currentSeconds = timer.tick;
-      var timerInfo = Provider.of<OtpVerificationProvider>(context, listen: false);
-      timerInfo.updateRemainingTime(timerMaxSeconds,currentSeconds);
+      var timerInfo =
+          Provider.of<OtpVerificationProvider>(context, listen: false);
+      timerInfo.updateRemainingTime(timerMaxSeconds, currentSeconds);
       if (timer.tick >= timerMaxSeconds) timer.cancel();
     });
   }

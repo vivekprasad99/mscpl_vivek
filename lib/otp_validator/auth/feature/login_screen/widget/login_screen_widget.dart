@@ -174,7 +174,9 @@ class _LoginScreenWidgetState extends State<LoginScreenWidget> {
             ),
             const Expanded(
               child: Text(
-                  'Allow fydaa to send financial knowledge and critical alerts on your WhatsApp.',style: TextStyle(color: subTitleTextColor,fontSize: 12),),
+                'Allow fydaa to send financial knowledge and critical alerts on your WhatsApp.',
+                style: TextStyle(color: subTitleTextColor, fontSize: 12),
+              ),
             ),
           ],
         ),
@@ -191,7 +193,10 @@ class _LoginScreenWidgetState extends State<LoginScreenWidget> {
   }
 
   void onGetOtpTap() {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) =>   OtpVerificationWidget(mobileNumber: _phoneTEC.text, )));
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => OtpVerificationWidget(
+              mobileNumber: _phoneTEC.text,
+            )));
   }
 
   @override
