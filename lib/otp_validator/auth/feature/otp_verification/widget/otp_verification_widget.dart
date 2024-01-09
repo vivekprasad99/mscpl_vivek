@@ -11,6 +11,7 @@ import '../providers/otp_verification_provider.dart';
 
 class OtpVerificationWidget extends StatefulWidget {
   final String mobileNumber;
+
   const OtpVerificationWidget({Key? key, required this.mobileNumber})
       : super(key: key);
 
@@ -42,18 +43,19 @@ class _OtpVerificationWidgetState extends State<OtpVerificationWidget> {
         Expanded(
             child:
                 SingleChildScrollView(child: _buildOtpVerification(context))),
-        Consumer<OtpVerificationProvider>(
-          builder: (BuildContext context,
-              OtpVerificationProvider values, Widget? child) {
-            return _buildResendAndChangeButton("Resend Code",primaryBackgroundColor,(!_countDownTimer!.isActive),(){
-              startTimeout();
-            });
-          }
-        ),
+        Consumer<OtpVerificationProvider>(builder: (BuildContext context,
+            OtpVerificationProvider values, Widget? child) {
+          return _buildResendAndChangeButton("Resend Code",
+              primaryBackgroundColor, (!_countDownTimer!.isActive), () {
+            startTimeout();
+          });
+        }),
         const SizedBox(
           height: 8,
         ),
-        _buildResendAndChangeButton("change Number",primaryBackgroundColor,true,(){
+        _buildResendAndChangeButton(
+            "change Number", primaryBackgroundColor, true, () {
+          _otpPasswordTEC.clear();
           Navigator.of(context).pop();
         }),
       ],
@@ -95,24 +97,23 @@ class _OtpVerificationWidgetState extends State<OtpVerificationWidget> {
   }
 
   Widget buildOtpCard(BuildContext context) {
-    return Consumer<OtpVerificationProvider>(builder: (BuildContext context,
-        OtpVerificationProvider values, Widget? child) {
+    return Consumer<OtpVerificationProvider>(builder:
+        (BuildContext context, OtpVerificationProvider values, Widget? child) {
       return values.otpText.length == 6
           ? Container(
-          padding: const EdgeInsets.all(20.0),
-          decoration: BoxDecoration(
-              color: values.otpText == values.validOtpCode
-                  ? validOtpColor
-                  : invalidOtpColor,
-              border: Border.all(color: buttonBorderColor),
-              borderRadius: BorderRadius.circular(8.0)),
-          child: Column(
-            children: [
-              _buildOTPField(context),
-              _buildStatusText(
-                  values.otpText == values.validOtpCode),
-            ],
-          ))
+              padding: const EdgeInsets.all(20.0),
+              decoration: BoxDecoration(
+                  color: values.otpText == values.validOtpCode
+                      ? validOtpColor
+                      : invalidOtpColor,
+                  border: Border.all(color: buttonBorderColor),
+                  borderRadius: BorderRadius.circular(8.0)),
+              child: Column(
+                children: [
+                  _buildOTPField(context),
+                  _buildStatusText(values.otpText == values.validOtpCode),
+                ],
+              ))
           : _buildOTPField(context);
     });
   }
@@ -122,6 +123,7 @@ class _OtpVerificationWidgetState extends State<OtpVerificationWidget> {
       padding: const EdgeInsets.only(left: 16),
       child: InkWell(
         onTap: () {
+          _otpPasswordTEC.clear();
           Navigator.of(context).pop(null);
         },
         child: const Icon(Icons.arrow_back_ios),
@@ -171,7 +173,7 @@ class _OtpVerificationWidgetState extends State<OtpVerificationWidget> {
         shape: PinCodeFieldShape.box,
         borderRadius: BorderRadius.circular(6),
         fieldHeight: 60,
-        fieldWidth: 48,
+        fieldWidth: 44,
         borderWidth: 1,
         activeColor: borderLineColor,
         inactiveColor: borderLineColor,
@@ -183,8 +185,9 @@ class _OtpVerificationWidgetState extends State<OtpVerificationWidget> {
       animationDuration: const Duration(milliseconds: 200),
       backgroundColor: Colors.transparent,
       enableActiveFill: true,
-      onValidate: (String? value){
-        Provider.of<OtpVerificationProvider>(context,listen: false).validateOtp(value);
+      onValidate: (String? value) {
+        Provider.of<OtpVerificationProvider>(context, listen: false)
+            .validateOtp(value);
       },
     );
   }
@@ -211,13 +214,16 @@ class _OtpVerificationWidgetState extends State<OtpVerificationWidget> {
     });
   }
 
-  Widget _buildResendAndChangeButton(String value,Color backgroundColor,bool? isEnable,Function() onClickTap) {
+  Widget _buildResendAndChangeButton(String value, Color backgroundColor,
+      bool? isEnable, Function() onClickTap) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: PrimaryButton(
-        onPressed: isEnable ?? false ?  () {
-          onClickTap();
-        } : null,
+        onPressed: isEnable ?? false
+            ? () {
+                onClickTap();
+              }
+            : null,
         color: backgroundColor,
         borderRadius: 8.0,
         text: value,

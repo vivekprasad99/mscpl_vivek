@@ -6,7 +6,8 @@ import 'otp_validator/auth/feature/login_screen/widget/login_screen_widget.dart'
 import 'otp_validator/auth/feature/otp_verification/providers/otp_verification_provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    const MyApp(),);
 }
 
 class MyApp extends StatelessWidget {
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'Otp Validator',
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
 
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
