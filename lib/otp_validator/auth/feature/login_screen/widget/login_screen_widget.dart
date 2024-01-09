@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mscpl_vivek/otp_validator/core/widget/global_widget/primary_button.dart';
 import 'package:provider/provider.dart';
 import '../../../../core/utils/custom_colors.dart';
 import '../../../../core/widget/global_widget/textfield.dart';
@@ -45,22 +46,12 @@ class _LoginScreenWidgetState extends State<LoginScreenWidget> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Column(
-            children: [
-              Text(
-                "Enter your mobile no",
-                style: TextStyle(
-                    color: titleTextColor,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 24),
-              ),
-            ],
-          ),
+          _buildTitleText(),
           const SizedBox(
             height: 16,
           ),
           const Text(
-            "We need to verity your number",
+            "We need to verify your number",
             style: TextStyle(
                 color: subTitleTextColor,
                 fontWeight: FontWeight.w400,
@@ -82,6 +73,14 @@ class _LoginScreenWidgetState extends State<LoginScreenWidget> {
           _buildBottomText(),
         ],
       ),
+    );
+  }
+
+  Widget _buildTitleText() {
+    return const Text(
+      "Enter your mobile no",
+      style: TextStyle(
+          color: titleTextColor, fontWeight: FontWeight.bold, fontSize: 24),
     );
   }
 
@@ -113,6 +112,7 @@ class _LoginScreenWidgetState extends State<LoginScreenWidget> {
           LengthLimitingTextInputFormatter(10),
           FilteringTextInputFormatter.digitsOnly,
         ],
+        height: 50,
         keyboardType: TextInputType.phone,
         focusNode: _phoneFN,
       ),
@@ -122,34 +122,18 @@ class _LoginScreenWidgetState extends State<LoginScreenWidget> {
   Widget _buildGetOtpButton() {
     return Consumer<LoginProvider>(
         builder: (BuildContext context, LoginProvider value, Widget? child) {
-      return InkWell(
-        onTap: () {
-          value.isGetOtpVuttonDisabled || !value.isRadioButtonEnabled
-              ? null
-              : onGetOtpTap();
-        },
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-            width: double.infinity,
-            decoration: BoxDecoration(
-                color:
-                    value.isGetOtpVuttonDisabled || !value.isRadioButtonEnabled
-                        ? Colors.grey[600]
-                        : titleTextColor,
-                borderRadius: BorderRadius.circular(8.0)),
-            child: const Center(
-              child: Text(
-                "Get OTP",
-                style: TextStyle(
-                    color: primaryBackgroundColor,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16),
-              ),
-            ),
-          ),
-        ),
+      return PrimaryButton(
+        onPressed: value.isGetOtpVuttonDisabled || !value.isRadioButtonEnabled
+            ? null
+            : () {
+                onGetOtpTap();
+              },
+        color: value.isGetOtpVuttonDisabled || !value.isRadioButtonEnabled
+            ? Colors.grey[600]
+            : titleTextColor,
+        borderRadius: 16.0,
+        text: "Get OTP",
+        textColor: primaryBackgroundColor,
       );
     });
   }
@@ -170,6 +154,7 @@ class _LoginScreenWidgetState extends State<LoginScreenWidget> {
                     .updateRadioButton(values.isRadioButtonEnabled);
                 _onTextChangeListener();
               },
+              activeColor: activeRadioColor,
               toggleable: true,
             ),
             const Expanded(
@@ -193,10 +178,11 @@ class _LoginScreenWidgetState extends State<LoginScreenWidget> {
   }
 
   void onGetOtpTap() {
-    Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => OtpVerificationWidget(
-              mobileNumber: _phoneTEC.text,
-            )));
+    Navigator.of(context)
+        .push(MaterialPageRoute(
+            builder: (context) => OtpVerificationWidget(
+                  mobileNumber: _phoneTEC.text,
+                )));
   }
 
   @override

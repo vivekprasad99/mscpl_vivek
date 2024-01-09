@@ -13,8 +13,6 @@ class PinCodeField extends StatefulWidget {
   final bool blinkWhenObscuring;
   final Duration blinkDuration;
   final ValueChanged<String>? onValidate;
-  // final ValueChanged<String>? onCompleted;
-  // final ValueChanged<String>? onSubmitted;
   final VoidCallback? onEditingComplete;
   final TextStyle? textStyle;
   final TextStyle? pastedTextStyle;
@@ -73,7 +71,6 @@ class PinCodeField extends StatefulWidget {
     this.blinkWhenObscuring = false,
     this.blinkDuration = const Duration(milliseconds: 500),
     this.onValidate,
-    // this.onCompleted,
     this.backgroundColor,
     this.mainAxisAlignment = MainAxisAlignment.spaceBetween,
     this.animationDuration = const Duration(milliseconds: 150),
@@ -94,7 +91,6 @@ class PinCodeField extends StatefulWidget {
     this.textInputAction = TextInputAction.done,
     this.autoDismissKeyboard = true,
     this.autoDisposeControllers = true,
-    // this.onSubmitted,
     this.onEditingComplete,
     this.errorAnimationController,
     this.beforeTextPaste,
